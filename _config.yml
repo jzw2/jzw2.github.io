@@ -18,9 +18,8 @@ email: jzw2@illinois.edu
 description: >- # this means to ignore newlines until "baseurl:"
   Hi, I'm John!
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+url: "jzw2.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+github_username:  jzw2
 
 # Build settings
 markdown: kramdown
