@@ -1,38 +1,38 @@
 module Main where
 
-import Prelude
-
-import Effect (Effect)
-import Effect.Console (log)
 
 import Prelude
 
-import Data.Maybe (Maybe(..))
-import Data.Tuple.Nested ((/\))
 import Effect (Effect)
 import Halogen as H
 import Halogen.Aff as HA
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
-import Halogen.HTML.Properties as HP
-import Halogen.Hooks as Hooks
 import Halogen.VDom.Driver (runUI)
 
 main :: Effect Unit
-main =
-  HA.runHalogenAff do
-    body <- HA.awaitBody
-    void $ runUI hookComponent Nothing body
+main = HA.runHalogenAff do
+  body <- HA.awaitBody
+  runUI component unit body
 
-hookComponent
-  :: forall unusedQuery unusedInput unusedOutput anyMonad
-   . H.Component unusedQuery unusedInput unusedOutput anyMonad
-hookComponent = Hooks.component \_ _ -> Hooks.do
-  enabled /\ enabledIdx <- Hooks.useState false
-  let label = if enabled then "On" else "Off"
-  Hooks.pure $
-    HH.button
-      [ HP.title label
-      , HE.onClick \_ -> Hooks.modify_ enabledIdx not
+data Action = Increment | Decrement
+
+component =
+  H.mkComponent
+    { initialState
+    , render
+    , eval: H.mkEval $ H.defaultEval { handleAction = handleAction }
+    }
+  where
+  initialState _ = 20
+
+  render state =
+    HH.div_
+      [ HH.button [ HE.onClick \_ -> Decrement ] [ HH.text "Decrement" ]
+      , HH.div_ [ HH.text $ show state ]
+      , HH.button [ HE.onClick \_ -> Increment ] [ HH.text "Increment" ]
       ]
-      [ HH.text label ]
+
+  handleAction = case _ of
+    Increment -> H.modify_ \state -> state + 1
+    Decrement -> H.modify_ \state -> state - 1
