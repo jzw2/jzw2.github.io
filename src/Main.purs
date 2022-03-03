@@ -15,7 +15,11 @@ main = HA.runHalogenAff do
   body <- HA.awaitBody
   runUI component unit body
 
-data Action = Increment | Decrement
+data Action = GoHome | GoProject
+
+data State = Home | Project
+
+
 
 component =
   H.mkComponent
@@ -24,15 +28,21 @@ component =
     , eval: H.mkEval $ H.defaultEval { handleAction = handleAction }
     }
   where
-  initialState _ = 20
+  initialState _ = Home
 
   render state =
     HH.div_
-      [ HH.button [ HE.onClick \_ -> Decrement ] [ HH.text "Decrement" ]
-      , HH.div_ [ HH.text $ show state ]
-      , HH.button [ HE.onClick \_ -> Increment ] [ HH.text "Increment" ]
+      [ HH.button [  HE.onClick \_ -> GoHome
+                  ] [ HH.text "Home" ]
+      , HH.button [  HE.onClick \_ -> GoProject
+                  ] [ HH.text "My Project" ]
+      , HH.div_ [ HH.text "Content", case state of
+                     Home -> HH.text "This is my home page"
+                     Project -> HH.text "This is my project  page"
+
+                  ]
       ]
 
   handleAction = case _ of
-    Increment -> H.modify_ \state -> state + 1
-    Decrement -> H.modify_ \state -> state - 1
+    GoHome -> H.modify_ \state -> Home
+    GoProject -> H.modify_ \state -> Project
