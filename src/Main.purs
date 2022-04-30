@@ -45,9 +45,9 @@ component =
     render state =
       let route = state.route in
       HH.div_
-        [ HH.button [  HE.onClick \_ -> GoHome
+        [ HH.button [  HE.onClick \_ -> ChangeURL "home"
                     ] [ HH.text "Home" ]
-        , HH.button [  HE.onClick \_ -> GoAbout
+        , HH.button [  HE.onClick \_ -> ChangeURL "about"
                     ] [ HH.text "About" ]
         , HH.button [  HE.onClick \_ -> OtherButton
                     ] [ HH.text "The is a big button that you should click on " ]

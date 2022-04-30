@@ -9269,9 +9269,9 @@ var PS = {};
   var component = function (dictMonadEffect) {
       var render = function (state) {
           return Halogen_HTML_Elements.div_([ Halogen_HTML_Elements.button([ Halogen_HTML_Events.onClick(function (v) {
-              return GoHome.value;
+              return new ChangeURL("home");
           }) ])([ Halogen_HTML_Core.text("Home") ]), Halogen_HTML_Elements.button([ Halogen_HTML_Events.onClick(function (v) {
-              return GoAbout.value;
+              return new ChangeURL("about");
           }) ])([ Halogen_HTML_Core.text("About") ]), Halogen_HTML_Elements.button([ Halogen_HTML_Events.onClick(function (v) {
               return OtherButton.value;
           }) ])([ Halogen_HTML_Core.text("The is a big button that you should click on ") ]), Halogen_HTML_Elements.div_([ Halogen_HTML_Core.text("Content"), (function () {
