@@ -8857,6 +8857,7 @@ var PS = {};
   exports["end"] = end;
   exports["runMatch"] = runMatch;
   exports["matchFunctor"] = matchFunctor;
+  exports["matchAlt"] = matchAlt;
   exports["matchPlus"] = matchPlus;
   exports["matchApply"] = matchApply;
   exports["matchApplicative"] = matchApplicative;
@@ -9061,6 +9062,7 @@ var PS = {};
   "use strict";
   $PS["Main"] = $PS["Main"] || {};
   var exports = $PS["Main"];
+  var Control_Alt = $PS["Control.Alt"];
   var Control_Applicative = $PS["Control.Applicative"];
   var Control_Apply = $PS["Control.Apply"];
   var Control_Bind = $PS["Control.Bind"];
@@ -9107,12 +9109,19 @@ var PS = {};
       };
       return Blog;
   })();
-  var Other = (function () {
-      function Other() {
+  var BlogIndex = (function () {
+      function BlogIndex() {
 
       };
-      Other.value = new Other();
-      return Other;
+      BlogIndex.value = new BlogIndex();
+      return BlogIndex;
+  })();
+  var NotFound = (function () {
+      function NotFound() {
+
+      };
+      NotFound.value = new NotFound();
+      return NotFound;
   })();
   var SetRoute = (function () {
       function SetRoute(value0, value1) {
@@ -9163,10 +9172,13 @@ var PS = {};
   }) ])([ Halogen_HTML_Core.text("About") ]), Halogen_HTML_Elements.button([ Halogen_HTML_Properties.type_(Halogen_HTML_Core.isPropButtonType)(DOM_HTML_Indexed_ButtonType.ButtonButton.value), Halogen_HTML_Events.onClick(function (v) {
       return new ChangeURL("/blog");
   }) ])([ Halogen_HTML_Core.text("Blog") ]) ]);
-  var myRoute = Control_Apply.applyFirst(Routing_Match.matchApply)(Control_Apply.applySecond(Routing_Match.matchApply)(Routing_Match.root)(Data_Foldable.oneOf(Data_Foldable.foldableArray)(Routing_Match.matchPlus)([ Control_Apply.applySecond(Routing_Match.matchApply)(Routing_Match.lit("home"))(Control_Applicative.pure(Routing_Match.matchApplicative)(Home.value)), Control_Apply.applySecond(Routing_Match.matchApply)(Routing_Match.lit("about"))(Control_Applicative.pure(Routing_Match.matchApplicative)(About.value)), Data_Functor.map(Routing_Match.matchFunctor)(Blog.create)(Control_Apply.applySecond(Routing_Match.matchApply)(Routing_Match.lit("blog"))(Routing_Match["int"])) ])))(Routing_Match.end);
+  var myRoute = (function () {
+      var normal = Control_Apply.applyFirst(Routing_Match.matchApply)(Control_Apply.applySecond(Routing_Match.matchApply)(Routing_Match.root)(Data_Foldable.oneOf(Data_Foldable.foldableArray)(Routing_Match.matchPlus)([ Control_Apply.applySecond(Routing_Match.matchApply)(Routing_Match.lit("home"))(Control_Applicative.pure(Routing_Match.matchApplicative)(Home.value)), Control_Apply.applySecond(Routing_Match.matchApply)(Routing_Match.lit("about"))(Control_Applicative.pure(Routing_Match.matchApplicative)(About.value)), Data_Functor.map(Routing_Match.matchFunctor)(Blog.create)(Control_Apply.applySecond(Routing_Match.matchApply)(Routing_Match.lit("blog"))(Routing_Match["int"])), Control_Apply.applySecond(Routing_Match.matchApply)(Routing_Match.lit("blog"))(Control_Applicative.pure(Routing_Match.matchApplicative)(BlogIndex.value)) ])))(Routing_Match.end);
+      return Control_Alt.alt(Routing_Match.matchAlt)(normal)(Control_Applicative.pure(Routing_Match.matchApplicative)(NotFound.value));
+  })();
   var component = function (dictMonadEffect) {
       var render = function (state) {
-          return Halogen_HTML_Elements.div_([ topBar, Halogen_HTML_Elements.div_([ Halogen_HTML_Core.text("Content"), (function () {
+          return Halogen_HTML_Elements.div_([ topBar, Halogen_HTML_Elements.div([ Halogen_HTML_Properties.class_("content") ])([ Halogen_HTML_Core.text("Content\x0a"), (function () {
               if (state.route instanceof Home) {
                   return Halogen_HTML_Core.text("This is my home page");
               };
@@ -9176,12 +9188,15 @@ var PS = {};
               if (state.route instanceof Blog) {
                   return Halogen_HTML_Core.text("This is my blog, on post " + Data_Show.show(Data_Show.showInt)(state.route.value0));
               };
+              if (state.route instanceof BlogIndex) {
+                  return Halogen_HTML_Core.text("Welcome to the blog home");
+              };
               return Halogen_HTML_Core.text("Well, I didn't implement this one yet");
           })() ]), Halogen_HTML_Elements.div_([ Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href("#/home") ])([ Halogen_HTML_Core.text("this is a something") ]) ]), Halogen_HTML_Elements.div_([ Halogen_HTML_Elements.a([ Halogen_HTML_Properties.href("#/about") ])([ Halogen_HTML_Core.text("this is a something else") ]) ]) ]);
       };
       var initialState = function (v) {
           return {
-              route: Other.value
+              route: Home.value
           };
       };
       var handleQuery = function (v) {
@@ -9238,7 +9253,8 @@ var PS = {};
   exports["Home"] = Home;
   exports["About"] = About;
   exports["Blog"] = Blog;
-  exports["Other"] = Other;
+  exports["BlogIndex"] = BlogIndex;
+  exports["NotFound"] = NotFound;
   exports["myRoute"] = myRoute;
 })(PS);
 PS["Main"].main();

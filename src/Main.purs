@@ -46,17 +46,18 @@ component :: forall input output m. MonadEffect m => H.Component Query input out
 component =
   H.mkComponent { initialState , render , eval: H.mkEval $ H.defaultEval { handleAction = handleAction, handleQuery = handleQuery } }
   where
-    initialState _ = { route: Other }
+    initialState _ = { route: Home }
 
     render :: forall m. State -> H.ComponentHTML Action () m
     render state =
       let route = state.route in
       HH.div_
         [ topBar,
-          HH.div_ [ HH.text "Content", case route of
+          HH.div [HP.class_ $ HH.ClassName "content"] [ HH.text "Content\n", case route of
                       Home -> HH.text "This is my home page"
                       About -> HH.text "This is my about page"
                       Blog n -> HH.text $ "This is my blog, on post " <>  show n
+                      BlogIndex -> HH.text $ "Welcome to the blog home"
                       _ -> HH.text "Well, I didn't implement this one yet"
 
                     ]
@@ -84,13 +85,10 @@ data MyRoute
   = Home
   | About
   | Blog Int
-  | Other
+  | BlogIndex
+  | NotFound
 
 myRoute :: Match MyRoute
 myRoute =
-  root *> oneOf
-    [ lit "home" *> pure Home
-    , lit "about" *> pure About
-    , Blog <$> (lit "blog" *> int)
-    ] <* end
-
+  let normal = root *> oneOf [ lit "home" *> pure Home , lit "about" *> pure About , Blog <$> (lit "blog" *> int), lit "blog" *> pure BlogIndex] <* end in
+  normal <|> pure NotFound
