@@ -25,15 +25,20 @@ main = HA.runHalogenAff do
     body <- HA.awaitBody
     halogenIO <- runUI component unit body
     H.liftEffect do
-      matches myRoute \_ newRoute -> case newRoute of
-        Home -> launchAff_ $ halogenIO.query $ H.mkTell (SetRoute Home)
-        About -> launchAff_ $ halogenIO.query $ H.mkTell (SetRoute About)
-        _ -> log "wtf happened"
+      matches myRoute \_ newRoute -> launchAff_ $ halogenIO.query $ H.mkTell (SetRoute newRoute)
 
 data Action = GoHome | GoAbout | OtherButton | ChangeURL String
 
 type State = { route :: MyRoute }
 
+
+topBar = HH.div [ HP.class_ $ HH.ClassName "top-bar" ] [HH.button [ HP.type_ HP.ButtonButton, HE.onClick \_ -> ChangeURL "/home"
+                    ] [ HH.text "Home" ]
+        , HH.button [ HP.type_ HP.ButtonButton, HE.onClick \_ -> ChangeURL "/about"
+                    ] [ HH.text "About" ]
+        , HH.button [ HP.type_ HP.ButtonButton, HE.onClick \_ -> ChangeURL "/blog"
+                    ] [ HH.text "Blog" ]
+         ]
 
 data Query a = SetRoute MyRoute a
 
@@ -47,15 +52,11 @@ component =
     render state =
       let route = state.route in
       HH.div_
-        [ HH.button [  HE.onClick \_ -> ChangeURL "home"
-                    ] [ HH.text "Home" ]
-        , HH.button [  HE.onClick \_ -> ChangeURL "about"
-                    ] [ HH.text "About" ]
-        , HH.button [  HE.onClick \_ -> OtherButton
-                    ] [ HH.text "The is a big button that you should click on " ]
-        , HH.div_ [ HH.text "Content", case route of
+        [ topBar,
+          HH.div_ [ HH.text "Content", case route of
                       Home -> HH.text "This is my home page"
                       About -> HH.text "This is my about page"
+                      Blog n -> HH.text $ "This is my blog, on post " <>  show n
                       _ -> HH.text "Well, I didn't implement this one yet"
 
                     ]
