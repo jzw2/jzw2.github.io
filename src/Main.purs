@@ -11,35 +11,37 @@ import Halogen.Aff as HA
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.VDom.Driver (runUI)
-import Routing.PushState (makeInterface, matches, PushStateInterface)
-import Foreign (unsafeToForeign)
+import Routing.Hash (matches, setHash)
 import Prelude
 import Control.Alternative ((<|>))
 import Data.Foldable (oneOf)
 import Data.Maybe
-
+import Effect.Class.Console
 import Routing.Match (Match, lit, int, str, end, root)
+import Halogen.HTML.Properties as HP
+
 main :: Effect Unit
 main = HA.runHalogenAff do
-    nav <- H.liftEffect makeInterface
     body <- HA.awaitBody
-    halogenIO <- runUI component nav body
+    halogenIO <- runUI component unit body
     H.liftEffect do
-      nav # matches myRoute \_ newRoute -> case newRoute of
+      matches myRoute \_ newRoute -> case newRoute of
         Home -> launchAff_ $ halogenIO.query $ H.mkTell (SetRoute Home)
         About -> launchAff_ $ halogenIO.query $ H.mkTell (SetRoute About)
-        _ -> launchAff_ $ halogenIO.query $ H.mkTell (SetRoute Home)
+        _ -> log "wtf happened"
 
 data Action = GoHome | GoAbout | OtherButton | ChangeURL String
 
-type State = { route :: MyRoute, nav :: PushStateInterface }
+type State = { route :: MyRoute }
 
 
 data Query a = SetRoute MyRoute a
+
+component :: forall input output m. MonadEffect m => H.Component Query input output m
 component =
   H.mkComponent { initialState , render , eval: H.mkEval $ H.defaultEval { handleAction = handleAction, handleQuery = handleQuery } }
   where
-    initialState nav = { route: Home, nav: nav }
+    initialState _ = { route: Other }
 
     render :: forall m. State -> H.ComponentHTML Action () m
     render state =
@@ -57,6 +59,10 @@ component =
                       _ -> HH.text "Well, I didn't implement this one yet"
 
                     ]
+        , HH.div_ [ HH.a [ HP.href "#/home" ] [ HH.text "this is a something" ]
+                    ]
+        , HH.div_ [ HH.a [ HP.href "#/about" ] [ HH.text "this is a something else" ]
+                    ]
         ]
 
 
@@ -68,12 +74,7 @@ component =
 
     handleAction :: forall output m. MonadEffect m => Action -> H.HalogenM State Action () output m Unit
     handleAction = case _ of
-      ChangeURL url -> do
-                       state <- H.get
-                       let nav = state.nav
-                       let ps = nav.pushState
-                       _ <- H.liftEffect $ ps (unsafeToForeign {}) url
-                       pure unit
+      ChangeURL url -> H.liftEffect $ setHash url
       _ -> pure unit
 
 type PostId = Int
@@ -82,6 +83,7 @@ data MyRoute
   = Home
   | About
   | Blog Int
+  | Other
 
 myRoute :: Match MyRoute
 myRoute =
@@ -91,12 +93,3 @@ myRoute =
     , Blog <$> (lit "blog" *> int)
     ] <* end
 
-routingMain :: Effect Unit
-routingMain = do
-  nav <- makeInterface
-  nav.pushState (unsafeToForeign {}) "blah"
-  -- nav # matches myRoute \_ newRoute -> case newRoute of
-  --   PostIndex -> nav.pushState (unsafeToForeign {}) "/about"
-  --   Post postId -> pure unit
-  --   PostEdit postId -> pure unit
-  --   PostBrowse year month -> pure unit
