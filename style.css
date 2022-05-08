@@ -1,4 +1,4 @@
-body{
+body {
     background-color: #7ac5cd;
         text-align: center;
 }
@@ -6,4 +6,12 @@ body{
 button {
     /* background-color: red; */
     margin: 10px;
+}
+
+.top-bar {
+    background-color: purple;
+}
+
+.content {
+    background-color: red;
 }
