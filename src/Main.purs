@@ -60,7 +60,7 @@ component =
       let route = state.route in
       HH.div_
         [ topBar,
-          HH.div [HP.class_ $ HH.ClassName "content"] [ HH.text "Content\n", case route of
+          HH.div [HP.class_ $ HH.ClassName "content"] [ case route of
                       Home -> homeHtml
                       About -> aboutHtml
                       Blog n -> HH.text $ "This is my blog, on post " <>  show n
