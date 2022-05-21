@@ -1,4 +1,5 @@
 #+title: My_first_post
+#+info: Thi is some random info
 
 
 I guess this is my first post.
