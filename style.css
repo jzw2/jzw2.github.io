@@ -15,3 +15,9 @@ button {
 .content {
     background-color: red;
 }
+
+
+img {
+    width: 25%;
+    height: auto;
+}
