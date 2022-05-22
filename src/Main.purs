@@ -1,7 +1,6 @@
 module Main where
 
 
-import Prelude
 
 import Effect.Class (class MonadEffect)
 import Effect (Effect)
@@ -12,12 +11,11 @@ import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.VDom.Driver (runUI)
 import Routing.Hash (matches, setHash)
-import Prelude
+import Prelude (Unit, bind, discard, pure, show, unit, void, ($), (*>), (<$>), (<*), (<>))
 import Control.Alternative ((<|>))
 import Data.Foldable (oneOf)
 import Data.Maybe
-import Effect.Class.Console
-import Routing.Match (Match, lit, int, str, end, root)
+import Routing.Match (Match, end, int, lit, root)
 import Halogen.HTML.Properties as HP
 import HomePage as HoPa
 
@@ -34,6 +32,7 @@ data Action = ChangeURL String
 type State = { route :: MyRoute }
 
 
+topBar :: forall a. HH.HTML a Action
 topBar = HH.div [ HP.class_ $ HH.ClassName "top-bar" ] [HH.button [ HP.type_ HP.ButtonButton, HE.onClick \_ -> ChangeURL "/home"
                     ] [ HH.text "Home" ]
         , HH.button [ HP.type_ HP.ButtonButton, HE.onClick \_ -> ChangeURL "/about"
@@ -43,6 +42,7 @@ topBar = HH.div [ HP.class_ $ HH.ClassName "top-bar" ] [HH.button [ HP.type_ HP.
          ]
 
 
+aboutHtml :: forall a b. HH.HTML a b
 aboutHtml = HH.text "Go away"
 
 
@@ -54,7 +54,7 @@ component =
   where
     initialState _ = { route: Home }
 
-    render :: forall m. State -> H.ComponentHTML Action () m
+    -- render :: forall m. State -> H.ComponentHTML Action () m
     render state =
       let route = state.route in
       HH.div_
@@ -69,16 +69,15 @@ component =
         ]
 
 
-    handleQuery :: forall m o a. Query a -> H.HalogenM State Action () o m (Maybe a)
+    handleQuery :: forall m1 o a. Query a -> H.HalogenM State Action () o m1 (Maybe a)
     handleQuery = case _ of
       SetRoute route a -> do
         H.modify_ (_ { route = route })
         pure (Just a)
 
-    handleAction :: forall output m. MonadEffect m => Action -> H.HalogenM State Action () output m Unit
+    -- handleAction :: forall output m. MonadEffect m => Action -> H.HalogenM State Action () output m Unit
     handleAction = case _ of
       ChangeURL url -> H.liftEffect $ setHash url
-      _ -> pure unit
 
 type PostId = Int
 
