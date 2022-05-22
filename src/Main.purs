@@ -19,9 +19,9 @@ import Data.Maybe
 import Effect.Class.Console
 import Routing.Match (Match, lit, int, str, end, root)
 import Halogen.HTML.Properties as HP
+import HomePage as HoPa
 
 
-shrekUrl = "https://am21.mediaite.com/tms/cnt/uploads/2021/02/shrek.jpg"
 main :: Effect Unit
 main = HA.runHalogenAff do
     body <- HA.awaitBody
@@ -43,7 +43,6 @@ topBar = HH.div [ HP.class_ $ HH.ClassName "top-bar" ] [HH.button [ HP.type_ HP.
          ]
 
 
-homeHtml = HH.div [] [HH.img [HP.src shrekUrl], HH.text "welcome to the home page"]
 aboutHtml = HH.text "Go away"
 
 
@@ -61,7 +60,7 @@ component =
       HH.div_
         [ topBar,
           HH.div [HP.class_ $ HH.ClassName "content"] [ case route of
-                      Home -> homeHtml
+                      Home -> HoPa.homeHtml
                       About -> aboutHtml
                       Blog n -> HH.text $ "This is my blog, on post " <>  show n
                       BlogIndex -> HH.text $ "Welcome to the blog home"
