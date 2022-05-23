@@ -32,7 +32,7 @@ topBar :: forall a. HH.HTML a Action
 topBar = HH.div [ HP.class_ $ HH.ClassName "top-bar" ]
   [ HH.button
       [ HP.type_ HP.ButtonButton
-      , HE.onClick \_ -> ChangeURL "/home"
+      , HE.onClick \_ -> ChangeURL ""
       ]
       [ HH.text "Home" ]
   , HH.button
@@ -69,8 +69,8 @@ component =
             [ case route of
                 Home -> HoPa.homeHtml
                 About -> aboutHtml
-                Blog n -> HH.text $ "This is my blog, on post " <> show n
-                BlogIndex -> HH.text $ "Welcome to the blog home"
+                Blog n -> HH.text $ "atheounah oetnu antoehuna theountheaountha nteuhantehu neouThis is my blog, on post " <> show n
+                BlogIndex -> HH.text $ "moo moo moo Welcome to the blog home"
                 _ -> HH.text "Well, I didn't implement this one yet"
             ]
         ]
@@ -97,6 +97,7 @@ data MyRoute
 myRoute :: Match MyRoute
 myRoute =
   let
-    normal = root *> oneOf [ lit "home" *> pure Home, lit "about" *> pure About, Blog <$> (lit "blog" *> int), lit "blog" *> pure BlogIndex ] <* end
+    normal = root *> oneOf [ lit "about" *> pure About, Blog <$> (lit "blog" *> int), lit "blog" *> pure BlogIndex
+                           ] <* end
   in
-    normal <|> pure NotFound
+    normal <|> ( end *> pure Home) <|> pure NotFound
