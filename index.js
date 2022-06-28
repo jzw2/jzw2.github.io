@@ -9416,7 +9416,7 @@
         });
       }
       ;
-      throw new Error("Failed pattern match at Main (line 95, column 17 - line 101, column 20): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Main (line 96, column 17 - line 102, column 20): " + [v.constructor.name]);
     };
     var handleAction = function(v) {
       return liftEffect(monadEffectHalogenM(dictMonadEffect))(setHash2(v.value0));
@@ -9460,12 +9460,20 @@
                 return "timeoout error";
               }
               ;
-              return "I dont know something";
+              if (resp.value0 instanceof RequestFailedError) {
+                return "erquest failed";
+              }
+              ;
+              if (resp.value0 instanceof XHROtherError) {
+                return "wtf";
+              }
+              ;
+              throw new Error("Failed pattern match at Main (line 34, column 26 - line 39, column 45): " + [resp.value0.constructor.name]);
             }();
             return halogenIO.query(mkTell(SetRandom.create("we have bad news " + message2)));
           }
           ;
-          throw new Error("Failed pattern match at Main (line 31, column 7 - line 40, column 83): " + [resp.constructor.name]);
+          throw new Error("Failed pattern match at Main (line 31, column 7 - line 41, column 83): " + [resp.constructor.name]);
         }))();
       });
     });

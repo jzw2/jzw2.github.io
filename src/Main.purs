@@ -35,7 +35,8 @@ main = HA.runHalogenAff do
                  Jx.RequestContentError _ -> "request error"
                  Jx.ResponseBodyError _ _ -> "request body"
                  Jx.TimeoutError -> "timeoout error"
-                 _ -> "I dont know something"
+                 Jx.RequestFailedError -> "erquest failed"
+                 Jx.XHROtherError _ -> "wtf"
            in
            halogenIO.query $ H.mkTell (SetRandom ("we have bad news " <> message))
 
