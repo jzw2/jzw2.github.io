@@ -27,10 +27,10 @@ main = HA.runHalogenAff do
   H.liftEffect do
     _ <- matches myRoute \_ newRoute -> void $ launchAff $ halogenIO.query $ H.mkTell (SetRoute newRoute)
     launchAff $ do
-      resp <- Jx.get string "/blog_posts/"
+      resp <- Jx.get string "test.org"
       case resp of
          Right good -> halogenIO.query $ H.mkTell (SetRandom good.body)
-         Left _  -> pure (pure unit)
+         Left _  -> halogenIO.query $ H.mkTell (SetRandom "we have bad news")
 
 data Action = ChangeURL String
 
@@ -64,7 +64,7 @@ component :: forall input output m. MonadEffect m => H.Component Query input out
 component =
   H.mkComponent { initialState, render, eval: H.mkEval $ H.defaultEval { handleAction = handleAction, handleQuery = handleQuery } }
   where
-  initialState _ = { route: Home, randomInfo: "hi" }
+  initialState _ = { route: Home, randomInfo: "initial test string" }
 
   -- render :: forall m. State -> H.ComponentHTML Action () m
   render state =
