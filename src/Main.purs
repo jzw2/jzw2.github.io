@@ -13,20 +13,28 @@ import Prelude (Unit, bind, discard, pure, show, unit, void, ($), (*>), (<$>), (
 import Control.Alternative ((<|>))
 import Data.Foldable (oneOf)
 import Data.Maybe
+import Data.Either
 import Routing.Match (Match, end, int, lit, root)
 import Halogen.HTML.Properties as HP
 import HomePage as HoPa
+import Affjax.Web as Jx
+import Affjax.ResponseFormat (string)
 
 main :: Effect Unit
 main = HA.runHalogenAff do
   body <- HA.awaitBody
   halogenIO <- runUI component unit body
   H.liftEffect do
-    matches myRoute \_ newRoute -> void $ launchAff $ halogenIO.query $ H.mkTell (SetRoute newRoute)
+    _ <- matches myRoute \_ newRoute -> void $ launchAff $ halogenIO.query $ H.mkTell (SetRoute newRoute)
+    launchAff $ do
+      resp <- Jx.get string "/blog_posts/"
+      case resp of
+         Right good -> halogenIO.query $ H.mkTell (SetRandom good.body)
+         Left _  -> pure (pure unit)
 
 data Action = ChangeURL String
 
-type State = { route :: MyRoute }
+type State = { route :: MyRoute, randomInfo :: String}
 
 topBar :: forall a. HH.HTML a Action
 topBar = HH.div [ HP.class_ $ HH.ClassName "top-bar" ]
@@ -50,13 +58,13 @@ topBar = HH.div [ HP.class_ $ HH.ClassName "top-bar" ]
 aboutHtml :: forall a b. HH.HTML a b
 aboutHtml = HH.text "Go away"
 
-data Query a = SetRoute MyRoute a
+data Query a = SetRoute MyRoute a | SetRandom String a
 
 component :: forall input output m. MonadEffect m => H.Component Query input output m
 component =
   H.mkComponent { initialState, render, eval: H.mkEval $ H.defaultEval { handleAction = handleAction, handleQuery = handleQuery } }
   where
-  initialState _ = { route: Home }
+  initialState _ = { route: Home, randomInfo: "hi" }
 
   -- render :: forall m. State -> H.ComponentHTML Action () m
   render state =
@@ -73,12 +81,16 @@ component =
                 BlogIndex -> HH.text $ "moo moo moo Welcome to the blog home"
                 _ -> HH.text "Well, I didn't implement this one yet"
             ]
+        , HH.text state.randomInfo
         ]
 
   handleQuery :: forall m1 o a. Query a -> H.HalogenM State Action () o m1 (Maybe a)
   handleQuery = case _ of
     SetRoute route a -> do
       H.modify_ (_ { route = route })
+      pure (Just a)
+    SetRandom randomInfo a -> do
+      H.modify_ (_ { randomInfo = randomInfo })
       pure (Just a)
 
   -- handleAction :: forall output m. MonadEffect m => Action -> H.HalogenM State Action () output m Unit
