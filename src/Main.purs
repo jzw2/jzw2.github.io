@@ -30,7 +30,14 @@ main = HA.runHalogenAff do
       resp <- Jx.get string "test.org"
       case resp of
          Right good -> halogenIO.query $ H.mkTell (SetRandom good.body)
-         Left _  -> halogenIO.query $ H.mkTell (SetRandom "we have bad news")
+         Left error  ->
+           let message = case error of
+                 Jx.RequestContentError _ -> "request error"
+                 Jx.ResponseBodyError _ _ -> "request body"
+                 Jx.TimeoutError -> "timeoout error"
+                 _ -> "I dont know something"
+           in
+           halogenIO.query $ H.mkTell (SetRandom ("we have bad news " <> message))
 
 data Action = ChangeURL String
 
