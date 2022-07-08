@@ -27,7 +27,7 @@ main = HA.runHalogenAff do
   H.liftEffect do
     _ <- matches myRoute \_ newRoute -> void $ launchAff $ halogenIO.query $ H.mkTell (SetRoute newRoute)
     launchAff $ do
-      resp <- Jx.get string "test.org"
+      resp <- Jx.get string "/blog_posts/"
       case resp of
          Right good -> halogenIO.query $ H.mkTell (SetRandom good.body)
          Left error  ->
@@ -85,11 +85,23 @@ component =
             [ case route of
                 Home -> HoPa.homeHtml
                 About -> aboutHtml
-                Blog n -> HH.text $ "atheounah oetnu antoehuna theountheaountha nteuhantehu neouThis is my blog, on post " <> show n
-                BlogIndex -> HH.text $ "moo moo moo Welcome to the blog home"
+                Blog 1 -> HH.iframe [ HP.src "/blog_posts/my_first_post.html" ]
+                Blog n -> HH.text $ "This is my blog, on post " <> show n
+                BlogIndex -> HH.div_ [
+                  HH.div [HP.class_ $ HH.ClassName "blog_list" ] [
+                   HH.ol_  [
+                       HH.li_ [ HH.text $ "Welcome to the blog home" ],
+                       HH.li_ [HH.a [HP.href "https://www.google.com/"] [ HH.text "google com" ]],
+                       HH.li_ [HH.a [HP.href "/#/blog/1"] [ HH.text "my other blog" ]]
+
+                     ]
+                     ]
+                  ]
+
                 _ -> HH.text "Well, I didn't implement this one yet"
             ]
-        , HH.text state.randomInfo
+        -- , HH.text state.randomInfo
+          -- , HH.iframe [ HP.src "/blog_posts/my_first_post.html" ]
         ]
 
   handleQuery :: forall m1 o a. Query a -> H.HalogenM State Action () o m1 (Maybe a)

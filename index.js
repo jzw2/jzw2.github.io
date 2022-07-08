@@ -7698,9 +7698,14 @@
   var img = function(props) {
     return element2("img")(props)([]);
   };
+  var li = /* @__PURE__ */ element2("li");
+  var li_ = /* @__PURE__ */ li([]);
+  var ol = /* @__PURE__ */ element2("ol");
+  var ol_ = /* @__PURE__ */ ol([]);
   var div2 = /* @__PURE__ */ element2("div");
   var div_ = /* @__PURE__ */ div2([]);
   var button = /* @__PURE__ */ element2("button");
+  var a = /* @__PURE__ */ element2("a");
 
   // output/Web.UIEvent.MouseEvent.EventTypes/index.js
   var click2 = "click";
@@ -7729,6 +7734,7 @@
   var type_18 = function(dictIsProp) {
     return prop2(dictIsProp)("type");
   };
+  var href4 = /* @__PURE__ */ prop2(isPropString)("href");
   var class_ = /* @__PURE__ */ function() {
     var $14 = prop2(isPropString)("className");
     var $15 = unwrap();
@@ -9367,16 +9373,20 @@
           return aboutHtml;
         }
         ;
+        if (state3.route instanceof Blog && state3.route.value0 === 1) {
+          return iframe([src9("/blog_posts/my_first_post.html")]);
+        }
+        ;
         if (state3.route instanceof Blog) {
-          return text5("atheounah oetnu antoehuna theountheaountha nteuhantehu neouThis is my blog, on post " + show(showInt)(state3.route.value0));
+          return text5("This is my blog, on post " + show(showInt)(state3.route.value0));
         }
         ;
         if (state3.route instanceof BlogIndex) {
-          return text5("moo moo moo Welcome to the blog home");
+          return div_([div2([class_("blog_list")])([ol_([li_([text5("Welcome to the blog home")]), li_([a([href4("https://www.google.com/")])([text5("google com")])]), li_([a([href4("/#/blog/1")])([text5("my other blog")])])])])]);
         }
         ;
         return text5("Well, I didn't implement this one yet");
-      }()]), text5(state3.randomInfo), iframe([src9("/blog_posts/my_first_post.html")])]);
+      }()])]);
     };
     var initialState = function(v) {
       return {
@@ -9387,16 +9397,16 @@
     var handleQuery = function(v) {
       if (v instanceof SetRoute) {
         return discard(discardUnit)(bindHalogenM)(modify_2(monadStateHalogenM)(function(v1) {
-          var $14 = {};
-          for (var $15 in v1) {
-            if ({}.hasOwnProperty.call(v1, $15)) {
-              $14[$15] = v1[$15];
+          var $15 = {};
+          for (var $16 in v1) {
+            if ({}.hasOwnProperty.call(v1, $16)) {
+              $15[$16] = v1[$16];
             }
             ;
           }
           ;
-          $14.route = v.value0;
-          return $14;
+          $15.route = v.value0;
+          return $15;
         }))(function() {
           return pure(applicativeHalogenM)(new Just(v.value1));
         });
@@ -9404,22 +9414,22 @@
       ;
       if (v instanceof SetRandom) {
         return discard(discardUnit)(bindHalogenM)(modify_2(monadStateHalogenM)(function(v1) {
-          var $19 = {};
-          for (var $20 in v1) {
-            if ({}.hasOwnProperty.call(v1, $20)) {
-              $19[$20] = v1[$20];
+          var $20 = {};
+          for (var $21 in v1) {
+            if ({}.hasOwnProperty.call(v1, $21)) {
+              $20[$21] = v1[$21];
             }
             ;
           }
           ;
-          $19.randomInfo = v.value0;
-          return $19;
+          $20.randomInfo = v.value0;
+          return $20;
         }))(function() {
           return pure(applicativeHalogenM)(new Just(v.value1));
         });
       }
       ;
-      throw new Error("Failed pattern match at Main (line 97, column 17 - line 103, column 20): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Main (line 108, column 17 - line 114, column 20): " + [v.constructor.name]);
     };
     var handleAction = function(v) {
       return liftEffect(monadEffectHalogenM(dictMonadEffect))(setHash2(v.value0));
