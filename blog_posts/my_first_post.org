@@ -1,4 +1,4 @@
-#+title: My_first_post
+#+title: My First post
 #+info: Thi is some random info
 
 

@@ -7692,6 +7692,9 @@
   var element2 = /* @__PURE__ */ function() {
     return element(Nothing.value);
   }();
+  var iframe = function(props) {
+    return element2("iframe")(props)([]);
+  };
   var img = function(props) {
     return element2("img")(props)([]);
   };
@@ -9373,7 +9376,7 @@
         }
         ;
         return text5("Well, I didn't implement this one yet");
-      }()]), text5(state3.randomInfo)]);
+      }()]), text5(state3.randomInfo), iframe([src9("/blog_posts/my_first_post.html")])]);
     };
     var initialState = function(v) {
       return {
@@ -9416,7 +9419,7 @@
         });
       }
       ;
-      throw new Error("Failed pattern match at Main (line 96, column 17 - line 102, column 20): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Main (line 97, column 17 - line 103, column 20): " + [v.constructor.name]);
     };
     var handleAction = function(v) {
       return liftEffect(monadEffectHalogenM(dictMonadEffect))(setHash2(v.value0));
@@ -9441,7 +9444,7 @@
             return $$void(functorEffect)(launchAff(halogenIO.query(mkTell(SetRoute.create(newRoute)))));
           };
         })();
-        return launchAff(bind(bindAff)(get2(string)("test.org"))(function(resp) {
+        return launchAff(bind(bindAff)(get2(string)("/blog_posts/"))(function(resp) {
           if (resp instanceof Right) {
             return halogenIO.query(mkTell(SetRandom.create(resp.value0.body)));
           }
