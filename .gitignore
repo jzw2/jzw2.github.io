@@ -12,3 +12,5 @@ _site
 /.purs*
 /.psa*
 /.spago
+*.pdf
+*.tex
