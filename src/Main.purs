@@ -86,13 +86,15 @@ component =
                 Home -> HoPa.homeHtml
                 About -> aboutHtml
                 Blog 1 -> HH.iframe [ HP.src "/blog_posts/my_first_post.html" ]
+                Blog 2 -> HH.iframe [ HP.src "/blog_posts/post2.html" ]
                 Blog n -> HH.text $ "This is my blog, on post " <> show n
                 BlogIndex -> HH.div_ [
                   HH.div [HP.class_ $ HH.ClassName "blog_list" ] [
                    HH.ol_  [
                        HH.li_ [ HH.text $ "Welcome to the blog home" ],
                        HH.li_ [HH.a [HP.href "https://www.google.com/"] [ HH.text "google com" ]],
-                       HH.li_ [HH.a [HP.href "/#/blog/1"] [ HH.text "my other blog" ]]
+                       HH.li_ [HH.a [HP.href "/#/blog/1"] [ HH.text "my other blog" ]],
+                       HH.li_ [HH.a [HP.href "/#/blog/2"] [ HH.text "my other other blog page" ]]
 
                      ]
                      ]

@@ -9377,12 +9377,16 @@
           return iframe([src9("/blog_posts/my_first_post.html")]);
         }
         ;
+        if (state3.route instanceof Blog && state3.route.value0 === 2) {
+          return iframe([src9("/blog_posts/post2.html")]);
+        }
+        ;
         if (state3.route instanceof Blog) {
           return text5("This is my blog, on post " + show(showInt)(state3.route.value0));
         }
         ;
         if (state3.route instanceof BlogIndex) {
-          return div_([div2([class_("blog_list")])([ol_([li_([text5("Welcome to the blog home")]), li_([a([href4("https://www.google.com/")])([text5("google com")])]), li_([a([href4("/#/blog/1")])([text5("my other blog")])])])])]);
+          return div_([div2([class_("blog_list")])([ol_([li_([text5("Welcome to the blog home")]), li_([a([href4("https://www.google.com/")])([text5("google com")])]), li_([a([href4("/#/blog/1")])([text5("my other blog")])]), li_([a([href4("/#/blog/2")])([text5("my other other blog page")])])])])]);
         }
         ;
         return text5("Well, I didn't implement this one yet");
@@ -9397,16 +9401,16 @@
     var handleQuery = function(v) {
       if (v instanceof SetRoute) {
         return discard(discardUnit)(bindHalogenM)(modify_2(monadStateHalogenM)(function(v1) {
-          var $15 = {};
-          for (var $16 in v1) {
-            if ({}.hasOwnProperty.call(v1, $16)) {
-              $15[$16] = v1[$16];
+          var $16 = {};
+          for (var $17 in v1) {
+            if ({}.hasOwnProperty.call(v1, $17)) {
+              $16[$17] = v1[$17];
             }
             ;
           }
           ;
-          $15.route = v.value0;
-          return $15;
+          $16.route = v.value0;
+          return $16;
         }))(function() {
           return pure(applicativeHalogenM)(new Just(v.value1));
         });
@@ -9414,22 +9418,22 @@
       ;
       if (v instanceof SetRandom) {
         return discard(discardUnit)(bindHalogenM)(modify_2(monadStateHalogenM)(function(v1) {
-          var $20 = {};
-          for (var $21 in v1) {
-            if ({}.hasOwnProperty.call(v1, $21)) {
-              $20[$21] = v1[$21];
+          var $21 = {};
+          for (var $22 in v1) {
+            if ({}.hasOwnProperty.call(v1, $22)) {
+              $21[$22] = v1[$22];
             }
             ;
           }
           ;
-          $20.randomInfo = v.value0;
-          return $20;
+          $21.randomInfo = v.value0;
+          return $21;
         }))(function() {
           return pure(applicativeHalogenM)(new Just(v.value1));
         });
       }
       ;
-      throw new Error("Failed pattern match at Main (line 108, column 17 - line 114, column 20): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Main (line 110, column 17 - line 116, column 20): " + [v.constructor.name]);
     };
     var handleAction = function(v) {
       return liftEffect(monadEffectHalogenM(dictMonadEffect))(setHash2(v.value0));
