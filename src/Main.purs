@@ -71,7 +71,7 @@ data Query a = SetRoute MyRoute a | SetRandom String a
 
 sideBar = HH.div_ [
                   HH.div [HP.class_ $ HH.ClassName "blog_list" ] [
-                   HH.ol_  [
+                   HH.ul_  [
                        HH.li_ [ HH.text $ "Welcome to the blog home" ],
                        HH.li_ [HH.a [HP.href "https://www.google.com/"] [ HH.text "google com" ]],
                        HH.li_ [HH.a [HP.href "/#/blog/1"] [ HH.text "my other blog" ]],

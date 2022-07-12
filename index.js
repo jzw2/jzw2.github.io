@@ -7692,6 +7692,8 @@
   var element2 = /* @__PURE__ */ function() {
     return element(Nothing.value);
   }();
+  var h1 = /* @__PURE__ */ element2("h1");
+  var h1_ = /* @__PURE__ */ h1([]);
   var iframe = function(props) {
     return element2("iframe")(props)([]);
   };
@@ -7700,11 +7702,15 @@
   };
   var li = /* @__PURE__ */ element2("li");
   var li_ = /* @__PURE__ */ li([]);
-  var ol = /* @__PURE__ */ element2("ol");
-  var ol_ = /* @__PURE__ */ ol([]);
+  var ul = /* @__PURE__ */ element2("ul");
+  var ul_ = /* @__PURE__ */ ul([]);
   var div2 = /* @__PURE__ */ element2("div");
   var div_ = /* @__PURE__ */ div2([]);
   var button = /* @__PURE__ */ element2("button");
+  var br = function(props) {
+    return element2("br")(props)([]);
+  };
+  var br_ = /* @__PURE__ */ br([]);
   var a = /* @__PURE__ */ element2("a");
 
   // output/Web.UIEvent.MouseEvent.EventTypes/index.js
@@ -8618,7 +8624,7 @@
 
   // output/HomePage/index.js
   var shrekUrl = "https://am21.mediaite.com/tms/cnt/uploads/2021/02/shrek.jpg";
-  var homeHtml = /* @__PURE__ */ div2([])([/* @__PURE__ */ img([/* @__PURE__ */ src9(shrekUrl)]), /* @__PURE__ */ text5("welcome to the home page")]);
+  var homeHtml = /* @__PURE__ */ div2([])([/* @__PURE__ */ img([/* @__PURE__ */ src9(shrekUrl)]), br_, /* @__PURE__ */ text5("welcome to the home page"), /* @__PURE__ */ h1_([/* @__PURE__ */ text5("Why does your website look like doggy doo doo")]), /* @__PURE__ */ text5("Sorry, I'm bad at making websites")]);
 
   // output/Data.Semiring.Free/index.js
   var semiringFree = /* @__PURE__ */ function() {
@@ -9357,7 +9363,7 @@
       return new ChangeURL("/blog");
     })])([text5("Blog")])]);
   }();
-  var sideBar = /* @__PURE__ */ div_([/* @__PURE__ */ div2([/* @__PURE__ */ class_("blog_list")])([/* @__PURE__ */ ol_([/* @__PURE__ */ li_([/* @__PURE__ */ text5("Welcome to the blog home")]), /* @__PURE__ */ li_([/* @__PURE__ */ a([/* @__PURE__ */ href4("https://www.google.com/")])([/* @__PURE__ */ text5("google com")])]), /* @__PURE__ */ li_([/* @__PURE__ */ a([/* @__PURE__ */ href4("/#/blog/1")])([/* @__PURE__ */ text5("my other blog")])]), /* @__PURE__ */ li_([/* @__PURE__ */ a([/* @__PURE__ */ href4("/#/blog/2")])([/* @__PURE__ */ text5("my other other blog page")])])])])]);
+  var sideBar = /* @__PURE__ */ div_([/* @__PURE__ */ div2([/* @__PURE__ */ class_("blog_list")])([/* @__PURE__ */ ul_([/* @__PURE__ */ li_([/* @__PURE__ */ text5("Welcome to the blog home")]), /* @__PURE__ */ li_([/* @__PURE__ */ a([/* @__PURE__ */ href4("https://www.google.com/")])([/* @__PURE__ */ text5("google com")])]), /* @__PURE__ */ li_([/* @__PURE__ */ a([/* @__PURE__ */ href4("/#/blog/1")])([/* @__PURE__ */ text5("my other blog")])]), /* @__PURE__ */ li_([/* @__PURE__ */ a([/* @__PURE__ */ href4("/#/blog/2")])([/* @__PURE__ */ text5("my other other blog page")])])])])]);
   var myRoute = /* @__PURE__ */ function() {
     var normal = applyFirst(matchApply)(applySecond(matchApply)(root)(oneOf(foldableArray)(matchPlus)([applySecond(matchApply)(lit("about"))(pure(matchApplicative)(About.value)), map(matchFunctor)(Blog.create)(applySecond(matchApply)(lit("blog"))($$int)), applySecond(matchApply)(lit("blog"))(pure(matchApplicative)(BlogIndex.value))])))(end);
     return alt(matchAlt)(normal)(alt(matchAlt)(applySecond(matchApply)(end)(pure(matchApplicative)(Home.value)))(pure(matchApplicative)(NotFound.value)));
