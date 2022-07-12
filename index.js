@@ -9381,11 +9381,11 @@
         }
         ;
         if (state3.route instanceof Blog && state3.route.value0 === 1) {
-          return div_([sideBar, iframe([src9("/blog_posts/my_first_post.html")])]);
+          return div2([class_("side_and_main")])([sideBar, iframe([src9("/blog_posts/my_first_post.html")])]);
         }
         ;
         if (state3.route instanceof Blog && state3.route.value0 === 2) {
-          return div_([sideBar, iframe([src9("/blog_posts/post2.html")])]);
+          return div2([class_("side_and_main")])([sideBar, iframe([src9("/blog_posts/post2.html")])]);
         }
         ;
         if (state3.route instanceof Blog) {

@@ -99,8 +99,8 @@ component =
             [ case route of
                 Home -> HoPa.homeHtml
                 About -> aboutHtml
-                Blog 1 -> HH.div_ [sideBar, HH.iframe [ HP.src "/blog_posts/my_first_post.html" ]]
-                Blog 2 -> HH.div_ [sideBar, HH.iframe [ HP.src "/blog_posts/post2.html" ]]
+                Blog 1 -> HH.div [HP.class_ $ HH.ClassName "side_and_main"] [sideBar, HH.iframe [  HP.src "/blog_posts/my_first_post.html" ]]
+                Blog 2 -> HH.div [HP.class_ $ HH.ClassName "side_and_main"] [sideBar, HH.iframe [ HP.src "/blog_posts/post2.html" ]]
                 Blog n -> HH.text $ "This is my blog, on post " <> show n
                 BlogIndex -> sideBar
 
