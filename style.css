@@ -1,5 +1,5 @@
 * {
-    background-color: gray;
+    /* background-color: gray; */
     font-family: "Comic Sans MS", "Comic Sans";
 }
 body {
@@ -14,11 +14,11 @@ button {
 
 .top-bar {
     /* background-color: purple; */
-    background-color: #FF50FF50;
+    /* background-color: #FF50FF50; */
 }
 
 .content {
-    background-color: #FF50FF50;
+    /* background-color: #FF50FF50; */
 }
 
 
