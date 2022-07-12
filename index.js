@@ -9357,6 +9357,7 @@
       return new ChangeURL("/blog");
     })])([text5("Blog")])]);
   }();
+  var sideBar = /* @__PURE__ */ div_([/* @__PURE__ */ div2([/* @__PURE__ */ class_("blog_list")])([/* @__PURE__ */ ol_([/* @__PURE__ */ li_([/* @__PURE__ */ text5("Welcome to the blog home")]), /* @__PURE__ */ li_([/* @__PURE__ */ a([/* @__PURE__ */ href4("https://www.google.com/")])([/* @__PURE__ */ text5("google com")])]), /* @__PURE__ */ li_([/* @__PURE__ */ a([/* @__PURE__ */ href4("/#/blog/1")])([/* @__PURE__ */ text5("my other blog")])]), /* @__PURE__ */ li_([/* @__PURE__ */ a([/* @__PURE__ */ href4("/#/blog/2")])([/* @__PURE__ */ text5("my other other blog page")])])])])]);
   var myRoute = /* @__PURE__ */ function() {
     var normal = applyFirst(matchApply)(applySecond(matchApply)(root)(oneOf(foldableArray)(matchPlus)([applySecond(matchApply)(lit("about"))(pure(matchApplicative)(About.value)), map(matchFunctor)(Blog.create)(applySecond(matchApply)(lit("blog"))($$int)), applySecond(matchApply)(lit("blog"))(pure(matchApplicative)(BlogIndex.value))])))(end);
     return alt(matchAlt)(normal)(alt(matchAlt)(applySecond(matchApply)(end)(pure(matchApplicative)(Home.value)))(pure(matchApplicative)(NotFound.value)));
@@ -9374,11 +9375,11 @@
         }
         ;
         if (state3.route instanceof Blog && state3.route.value0 === 1) {
-          return iframe([src9("/blog_posts/my_first_post.html")]);
+          return div_([sideBar, iframe([src9("/blog_posts/my_first_post.html")])]);
         }
         ;
         if (state3.route instanceof Blog && state3.route.value0 === 2) {
-          return iframe([src9("/blog_posts/post2.html")]);
+          return div_([sideBar, iframe([src9("/blog_posts/post2.html")])]);
         }
         ;
         if (state3.route instanceof Blog) {
@@ -9386,7 +9387,7 @@
         }
         ;
         if (state3.route instanceof BlogIndex) {
-          return div_([div2([class_("blog_list")])([ol_([li_([text5("Welcome to the blog home")]), li_([a([href4("https://www.google.com/")])([text5("google com")])]), li_([a([href4("/#/blog/1")])([text5("my other blog")])]), li_([a([href4("/#/blog/2")])([text5("my other other blog page")])])])])]);
+          return sideBar;
         }
         ;
         return text5("Well, I didn't implement this one yet");
@@ -9433,7 +9434,7 @@
         });
       }
       ;
-      throw new Error("Failed pattern match at Main (line 110, column 17 - line 116, column 20): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Main (line 114, column 17 - line 120, column 20): " + [v.constructor.name]);
     };
     var handleAction = function(v) {
       return liftEffect(monadEffectHalogenM(dictMonadEffect))(setHash2(v.value0));

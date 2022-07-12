@@ -68,6 +68,20 @@ aboutHtml = HH.text "Go away"
 
 data Query a = SetRoute MyRoute a | SetRandom String a
 
+
+sideBar = HH.div_ [
+                  HH.div [HP.class_ $ HH.ClassName "blog_list" ] [
+                   HH.ol_  [
+                       HH.li_ [ HH.text $ "Welcome to the blog home" ],
+                       HH.li_ [HH.a [HP.href "https://www.google.com/"] [ HH.text "google com" ]],
+                       HH.li_ [HH.a [HP.href "/#/blog/1"] [ HH.text "my other blog" ]],
+                       HH.li_ [HH.a [HP.href "/#/blog/2"] [ HH.text "my other other blog page" ]]
+
+                     ]
+                     ]
+                  ]
+
+
 component :: forall input output m. MonadEffect m => H.Component Query input output m
 component =
   H.mkComponent { initialState, render, eval: H.mkEval $ H.defaultEval { handleAction = handleAction, handleQuery = handleQuery } }
@@ -85,20 +99,10 @@ component =
             [ case route of
                 Home -> HoPa.homeHtml
                 About -> aboutHtml
-                Blog 1 -> HH.iframe [ HP.src "/blog_posts/my_first_post.html" ]
-                Blog 2 -> HH.iframe [ HP.src "/blog_posts/post2.html" ]
+                Blog 1 -> HH.div_ [sideBar, HH.iframe [ HP.src "/blog_posts/my_first_post.html" ]]
+                Blog 2 -> HH.div_ [sideBar, HH.iframe [ HP.src "/blog_posts/post2.html" ]]
                 Blog n -> HH.text $ "This is my blog, on post " <> show n
-                BlogIndex -> HH.div_ [
-                  HH.div [HP.class_ $ HH.ClassName "blog_list" ] [
-                   HH.ol_  [
-                       HH.li_ [ HH.text $ "Welcome to the blog home" ],
-                       HH.li_ [HH.a [HP.href "https://www.google.com/"] [ HH.text "google com" ]],
-                       HH.li_ [HH.a [HP.href "/#/blog/1"] [ HH.text "my other blog" ]],
-                       HH.li_ [HH.a [HP.href "/#/blog/2"] [ HH.text "my other other blog page" ]]
-
-                     ]
-                     ]
-                  ]
+                BlogIndex -> sideBar
 
                 _ -> HH.text "Well, I didn't implement this one yet"
             ]
