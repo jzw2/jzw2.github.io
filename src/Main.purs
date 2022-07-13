@@ -93,7 +93,7 @@ component =
     let
       route = state.route
     in
-      HH.div_
+      HH.div [ HP.class_ $ HH.ClassName "top_and_content" ]
         [ topBar
         , HH.div [ HP.class_ $ HH.ClassName "content" ]
             [ case route of

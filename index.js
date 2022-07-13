@@ -9371,7 +9371,7 @@
   var aboutHtml = /* @__PURE__ */ text5("Go away");
   var component = function(dictMonadEffect) {
     var render = function(state3) {
-      return div_([topBar, div2([class_("content")])([function() {
+      return div2([class_("top_and_content")])([topBar, div2([class_("content")])([function() {
         if (state3.route instanceof Home) {
           return homeHtml;
         }
