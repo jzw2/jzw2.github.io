@@ -3,7 +3,6 @@
     font-family: "Comic Sans MS", "Comic Sans";
 }
 body {
-    background-color: #7ac5cd;
         text-align: center;
 }
 
@@ -19,6 +18,7 @@ button {
 
 .content {
     /* background-color: #FF50FF50; */
+    background-color: #7ac5cdCC;
 }
 
 .side_and_main {
