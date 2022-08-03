@@ -14,11 +14,16 @@ import Control.Alternative ((<|>))
 import Data.Foldable (oneOf)
 import Data.Maybe
 import Data.Either
+import Data.Array
+import Data.Functor
+import Data.Tuple
 import Routing.Match (Match, end, int, lit, root)
 import Halogen.HTML.Properties as HP
 import HomePage as HoPa
 import Affjax.Web as Jx
 import Affjax.ResponseFormat (string)
+
+import BlogList (blogList)
 
 main :: Effect Unit
 main = HA.runHalogenAff do
@@ -69,15 +74,11 @@ aboutHtml = HH.text "Go away"
 data Query a = SetRoute MyRoute a | SetRandom String a
 
 
+reversedBlog = zip (reverse blogList) $ 1 .. 999 -- I don't know how to zip enumerate in haskell
+
 sideBar = HH.div_ [
                   HH.div [HP.class_ $ HH.ClassName "blog_list" ] [
-                   HH.ul_  [
-                       HH.li_ [ HH.text $ "Welcome to the blog home" ],
-                       HH.li_ [HH.a [HP.href "https://www.google.com/"] [ HH.text "google com" ]],
-                       HH.li_ [HH.a [HP.href "/#/blog/1"] [ HH.text "my other blog" ]],
-                       HH.li_ [HH.a [HP.href "/#/blog/2"] [ HH.text "my other other blog page" ]]
-
-                     ]
+                   HH.ul_ $ map (\(Tuple (Tuple name _) index) -> HH.li_ [HH.a [HP.href $ "/#/blog/" <> show index] [ HH.text name]]) reversedBlog
                      ]
                   ]
 

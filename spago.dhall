@@ -7,6 +7,7 @@ You can edit this file as you like.
   [ "aff"
   , "affjax"
   , "affjax-web"
+  , "arrays"
   , "console"
   , "control"
   , "effect"
@@ -18,6 +19,7 @@ You can edit this file as you like.
   , "prelude"
   , "psci-support"
   , "routing"
+  , "tuples"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
