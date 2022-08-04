@@ -12,17 +12,17 @@ import Routing.Hash (matches, setHash)
 import Prelude (Unit, bind, discard, pure, show, unit, void, ($), (*>), (<$>), (<*), (<>))
 import Control.Alternative ((<|>))
 import Data.Foldable (oneOf)
-import Data.Maybe
-import Data.Either
-import Data.Array
-import Data.Functor
-import Data.Tuple
+import Data.Maybe (Maybe(..))
+import Data.Either (Either(..))
+import Data.Array (reverse, zip, (!!), (..))
+import Data.Functor (map)
+import Data.Tuple (Tuple(..))
 import Routing.Match (Match, end, int, lit, root)
 import Halogen.HTML.Properties as HP
 import HomePage as HoPa
 import Affjax.Web as Jx
 import Affjax.ResponseFormat (string)
-import Data.Ring
+import Data.Ring ((-))
 
 import BlogList (blogList)
 
@@ -74,9 +74,10 @@ aboutHtml = HH.text "Go away"
 
 data Query a = SetRoute MyRoute a | SetRandom String a
 
-
+reversedBlog :: Array (Tuple (Tuple String String) Int)
 reversedBlog = reverse $ zip blogList $ 1 .. 999 -- I don't know how to zip enumerate in haskell
 
+sideBar :: forall x y. HH.HTML x y
 sideBar = HH.div_ [
                   HH.div [HP.class_ $ HH.ClassName "blog_list" ] [
                    HH.ul_ $ map (\(Tuple (Tuple name _) index) -> HH.li_ [HH.a [HP.href $ "/#/blog/" <> show index] [ HH.text name]]) reversedBlog
@@ -105,10 +106,7 @@ component =
                                                                                                 Just (Tuple _ page) -> HH.iframe [HP.src $ "/blog_posts/" <> page]
                                                                                                 Nothing -> HH.text "Well, this page doesn't exist"
 
-
-
                                                                             ]
-                Blog n -> HH.text $ "This is my blog, on post " <> show n
                 BlogIndex -> sideBar
 
                 _ -> HH.text "Well, I didn't implement this one yet"

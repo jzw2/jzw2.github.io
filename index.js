@@ -9631,12 +9631,8 @@
               return text5("Well, this page doesn't exist");
             }
             ;
-            throw new Error("Failed pattern match at Main (line 104, column 88 - line 106, column 147): " + [v.constructor.name]);
+            throw new Error("Failed pattern match at Main (line 105, column 88 - line 107, column 147): " + [v.constructor.name]);
           }()]);
-        }
-        ;
-        if (state3.route instanceof Blog) {
-          return text5("This is my blog, on post " + show2(state3.route.value0));
         }
         ;
         if (state3.route instanceof BlogIndex) {
@@ -9655,16 +9651,16 @@
     var handleQuery = function(v) {
       if (v instanceof SetRoute) {
         return discard6(modify_3(function(v1) {
-          var $49 = {};
-          for (var $50 in v1) {
-            if ({}.hasOwnProperty.call(v1, $50)) {
-              $49[$50] = v1[$50];
+          var $48 = {};
+          for (var $49 in v1) {
+            if ({}.hasOwnProperty.call(v1, $49)) {
+              $48[$49] = v1[$49];
             }
             ;
           }
           ;
-          $49.route = v.value0;
-          return $49;
+          $48.route = v.value0;
+          return $48;
         }))(function() {
           return pure17(new Just(v.value1));
         });
@@ -9672,22 +9668,22 @@
       ;
       if (v instanceof SetRandom) {
         return discard6(modify_3(function(v1) {
-          var $54 = {};
-          for (var $55 in v1) {
-            if ({}.hasOwnProperty.call(v1, $55)) {
-              $54[$55] = v1[$55];
+          var $53 = {};
+          for (var $54 in v1) {
+            if ({}.hasOwnProperty.call(v1, $54)) {
+              $53[$54] = v1[$54];
             }
             ;
           }
           ;
-          $54.randomInfo = v.value0;
-          return $54;
+          $53.randomInfo = v.value0;
+          return $53;
         }))(function() {
           return pure17(new Just(v.value1));
         });
       }
       ;
-      throw new Error("Failed pattern match at Main (line 121, column 17 - line 127, column 20): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Main (line 119, column 17 - line 125, column 20): " + [v.constructor.name]);
     };
     var handleAction = function(v) {
       return liftEffect12(setHash2(v.value0));
