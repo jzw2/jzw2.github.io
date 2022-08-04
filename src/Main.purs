@@ -74,7 +74,7 @@ aboutHtml = HH.text "Go away"
 data Query a = SetRoute MyRoute a | SetRandom String a
 
 
-reversedBlog = zip (reverse blogList) $ 1 .. 999 -- I don't know how to zip enumerate in haskell
+reversedBlog = reverse $ zip blogList $ 1 .. 999 -- I don't know how to zip enumerate in haskell
 
 sideBar = HH.div_ [
                   HH.div [HP.class_ $ HH.ClassName "blog_list" ] [

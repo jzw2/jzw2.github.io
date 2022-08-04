@@ -9599,7 +9599,7 @@
       return new ChangeURL("/blog");
     })])([text5("Blog")])]);
   }();
-  var reversedBlog = /* @__PURE__ */ zip(/* @__PURE__ */ reverse(blogList))(/* @__PURE__ */ range(1)(999));
+  var reversedBlog = /* @__PURE__ */ reverse(/* @__PURE__ */ zip(blogList)(/* @__PURE__ */ range(1)(999)));
   var sideBar = /* @__PURE__ */ div_([/* @__PURE__ */ div2([/* @__PURE__ */ class_("blog_list")])([/* @__PURE__ */ ul_(/* @__PURE__ */ map(functorArray)(function(v) {
     return li_([a([href4("/#/blog/" + show2(v.value1))])([text5(v.value0.value0)])]);
   })(reversedBlog))])]);
