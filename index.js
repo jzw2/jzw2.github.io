@@ -9620,12 +9620,19 @@
           return aboutHtml;
         }
         ;
-        if (state3.route instanceof Blog && state3.route.value0 === 1) {
-          return div2([class_("side_and_main")])([sideBar, iframe([src9("/blog_posts/my_first_post.html")])]);
-        }
-        ;
-        if (state3.route instanceof Blog && state3.route.value0 === 2) {
-          return div2([class_("side_and_main")])([sideBar, iframe([src9("/blog_posts/post2.html")])]);
+        if (state3.route instanceof Blog) {
+          return div2([class_("side_and_main")])([sideBar, function() {
+            var v = index(blogList)(state3.route.value0 - 1 | 0);
+            if (v instanceof Just) {
+              return iframe([src9("/blog_posts/" + v.value0.value1)]);
+            }
+            ;
+            if (v instanceof Nothing) {
+              return text5("Well, this page doesn't exist");
+            }
+            ;
+            throw new Error("Failed pattern match at Main (line 104, column 88 - line 106, column 147): " + [v.constructor.name]);
+          }()]);
         }
         ;
         if (state3.route instanceof Blog) {
@@ -9648,23 +9655,6 @@
     var handleQuery = function(v) {
       if (v instanceof SetRoute) {
         return discard6(modify_3(function(v1) {
-          var $44 = {};
-          for (var $45 in v1) {
-            if ({}.hasOwnProperty.call(v1, $45)) {
-              $44[$45] = v1[$45];
-            }
-            ;
-          }
-          ;
-          $44.route = v.value0;
-          return $44;
-        }))(function() {
-          return pure17(new Just(v.value1));
-        });
-      }
-      ;
-      if (v instanceof SetRandom) {
-        return discard6(modify_3(function(v1) {
           var $49 = {};
           for (var $50 in v1) {
             if ({}.hasOwnProperty.call(v1, $50)) {
@@ -9673,14 +9663,31 @@
             ;
           }
           ;
-          $49.randomInfo = v.value0;
+          $49.route = v.value0;
           return $49;
         }))(function() {
           return pure17(new Just(v.value1));
         });
       }
       ;
-      throw new Error("Failed pattern match at Main (line 115, column 17 - line 121, column 20): " + [v.constructor.name]);
+      if (v instanceof SetRandom) {
+        return discard6(modify_3(function(v1) {
+          var $54 = {};
+          for (var $55 in v1) {
+            if ({}.hasOwnProperty.call(v1, $55)) {
+              $54[$55] = v1[$55];
+            }
+            ;
+          }
+          ;
+          $54.randomInfo = v.value0;
+          return $54;
+        }))(function() {
+          return pure17(new Just(v.value1));
+        });
+      }
+      ;
+      throw new Error("Failed pattern match at Main (line 121, column 17 - line 127, column 20): " + [v.constructor.name]);
     };
     var handleAction = function(v) {
       return liftEffect12(setHash2(v.value0));
@@ -9733,12 +9740,12 @@
                 return "wtf";
               }
               ;
-              throw new Error("Failed pattern match at Main (line 39, column 26 - line 44, column 45): " + [resp.value0.constructor.name]);
+              throw new Error("Failed pattern match at Main (line 40, column 26 - line 45, column 45): " + [resp.value0.constructor.name]);
             }();
             return halogenIO.query(mkTell(SetRandom.create("we have bad news " + message2)));
           }
           ;
-          throw new Error("Failed pattern match at Main (line 36, column 7 - line 46, column 83): " + [resp.constructor.name]);
+          throw new Error("Failed pattern match at Main (line 37, column 7 - line 47, column 83): " + [resp.constructor.name]);
         }))();
       });
     });

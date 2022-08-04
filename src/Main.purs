@@ -22,6 +22,7 @@ import Halogen.HTML.Properties as HP
 import HomePage as HoPa
 import Affjax.Web as Jx
 import Affjax.ResponseFormat (string)
+import Data.Ring
 
 import BlogList (blogList)
 
@@ -100,8 +101,13 @@ component =
             [ case route of
                 Home -> HoPa.homeHtml
                 About -> aboutHtml
-                Blog 1 -> HH.div [HP.class_ $ HH.ClassName "side_and_main"] [sideBar, HH.iframe [  HP.src "/blog_posts/my_first_post.html" ]]
-                Blog 2 -> HH.div [HP.class_ $ HH.ClassName "side_and_main"] [sideBar, HH.iframe [ HP.src "/blog_posts/post2.html" ]]
+                Blog n -> HH.div [HP.class_ $ HH.ClassName "side_and_main"] [sideBar,  case blogList !! ( n - 1 ) of
+                                                                                                Just (Tuple _ page) -> HH.iframe [HP.src $ "/blog_posts/" <> page]
+                                                                                                Nothing -> HH.text "Well, this page doesn't exist"
+
+
+
+                                                                            ]
                 Blog n -> HH.text $ "This is my blog, on post " <> show n
                 BlogIndex -> sideBar
 
