@@ -4607,7 +4607,7 @@
 
   // output/BlogList/index.js
   var blogList = /* @__PURE__ */ function() {
-    return [new Tuple("My First Post", "my_first_post.html"), new Tuple("My Second Post", "post2.html")];
+    return [new Tuple("My First Post", "my_first_post.html"), new Tuple("My Second Post", "post2.html"), new Tuple("Top 10 Worst Programming Languages", "worst_programming_languages.html")];
   }();
 
   // output/DOM.HTML.Indexed.ButtonType/index.js
