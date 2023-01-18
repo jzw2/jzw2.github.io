@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-01-18 Wed 21:14 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Why For Loops Bad</title>
+<meta name="author" content="John Wang" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Why For Loops Bad</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org8894103">1. Advantages of the for loop</a></li>
+<li><a href="#orgabccca2">2. The &ldquo;other&rdquo; for loop</a></li>
+<li><a href="#orga8ee903">3. The other other for loop</a></li>
+<li><a href="#org97acf93">4. Getting rid of the element</a></li>
+<li><a href="#orgdffc610">5. Conclusion</a></li>
+</ul>
+</div>
+</div>
+<p>
+Hello, and for today&rsquo;s post, we are going to make my first post that actualy has
+content. I wasn&rsquo;t sure what to write about, but I guess I wanted it to be
+somewhat short yet meaningful. Then I remembered something I heard from a while
+ago,
+</p>
+
+<blockquote>
+<p>
+I just feel so productive using C. Just being able to use a for loop just feels
+so great!
+</p>
+</blockquote>
+
+<p>
+Which is one of the stupider things I&rsquo;ve heard in my life. Because C suxx and
+<code>for loop: bad</code>
+</p>
+
+<p>
+(I guess the context for the quote is important. We had recently been programming in assembly. Writing in C is like eating dirt, but writing in assembly is like eating cyanide. )
+</p>
+
+<p>
+So why is C bad? Well, for a lot of reasons, but today we are focusing on just
+one: the for loop.
+</p>
+
+<p>
+Now you may be thinking: What&rsquo;s wring with a for loop? I use it all the time.
+</p>
+
+<p>
+Well, that&rsquo;s because you&rsquo;ve been brainwashed by Big For Loop™ into thinking that the for loop is
+acutally something good. It&rsquo;s not.
+</p>
+
+<p>
+Let&rsquo;s look at a typical example of the for loop.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #96CBFE;">int</span> <span style="color: #FFB8D1;">sum</span> = <span style="color: #C5A3FF; font-weight: bold;">0</span>;
+<span style="color: #96CBFE;">int</span> <span style="color: #FFB8D1;">n</span> = <span style="color: #C5A3FF; font-weight: bold;">12</span>;
+<span style="color: #96CBFE; font-style: italic;">for</span> <span style="color: #55b3cc;">(</span><span style="color: #96CBFE;">int</span> <span style="color: #FFB8D1;">i</span> = <span style="color: #C5A3FF; font-weight: bold;">1</span>; i &lt;= n; i++<span style="color: #55b3cc;">)</span> <span style="color: #55b3cc;">{</span>
+    sum += i;
+<span style="color: #55b3cc;">}</span>
+</pre>
+</div>
+
+
+<p>
+Here we are summing up the numbers from <code>1</code> to <code>n</code>, and I just set <code>n</code> to <code>12</code>.
+</p>
+
+
+<p>
+Lets look at another example
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-C">
+<span style="color: #96CBFE;">int</span> <span style="color: #FFB8D1;">array</span> = <span style="color: #55b3cc;">{</span><span style="color: #C5A3FF; font-weight: bold;">1</span>, <span style="color: #C5A3FF; font-weight: bold;">2</span>, <span style="color: #C5A3FF; font-weight: bold;">5</span>, <span style="color: #C5A3FF; font-weight: bold;">8</span>, <span style="color: #C5A3FF; font-weight: bold;">9</span>, <span style="color: #C5A3FF; font-weight: bold;">0</span><span style="color: #55b3cc;">}</span>;
+<span style="color: #96CBFE;">int</span> <span style="color: #FFB8D1;">sum</span> = <span style="color: #C5A3FF; font-weight: bold;">0</span>;
+<span style="color: #96CBFE; font-style: italic;">for</span> <span style="color: #55b3cc;">(</span><span style="color: #96CBFE;">int</span> <span style="color: #FFB8D1;">i</span> = <span style="color: #C5A3FF; font-weight: bold;">0</span>; i &lt; <span style="color: #C5A3FF; font-weight: bold;">6</span>; i++<span style="color: #55b3cc;">)</span> <span style="color: #55b3cc;">{</span>
+    sum += array<span style="color: #FFB8D1;">[</span>i<span style="color: #FFB8D1;">]</span>;
+<span style="color: #55b3cc;">}</span>
+</pre>
+</div>
+
+<p>
+Where we sum up the values in array.
+</p>
+
+
+<p>
+Besides the fact that you can&rsquo;t get the length of an array in C, these examples
+don&rsquo;t look too bad. But they are.
+</p>
+<div id="outline-container-org8894103" class="outline-2">
+<h2 id="org8894103"><span class="section-number-2">1.</span> Advantages of the for loop</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+What are the alternatives to the for loop?
+The most obvious choice is the while loop, which is very similar, in fact
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #96CBFE; font-style: italic;">for</span> <span style="color: #55b3cc;">(</span>A; B; C<span style="color: #55b3cc;">)</span> <span style="color: #55b3cc;">{</span>
+  D
+<span style="color: #55b3cc;">}</span>
+</pre>
+</div>
+
+<p>
+Is the exact same as
+</p>
+<div class="org-src-container">
+<pre class="src src-C">A
+<span style="color: #96CBFE; font-style: italic;">while</span> <span style="color: #55b3cc;">(</span>B<span style="color: #55b3cc;">)</span> <span style="color: #55b3cc;">{</span>
+    <span style="color: #96CBFE;">D</span>
+    <span style="color: #FFB8D1;">C</span>
+<span style="color: #55b3cc;">}</span>
+</pre>
+</div>
+
+<p>
+(Minus a bit of a technicality of the scoping rules, since the scope of a
+variable declared in A will be local to the loop)
+</p>
+
+
+<p>
+The advantage gained here is honestly not much. You save two keystrokes typing
+<code>for</code> instead of <code>while</code>, and it&rsquo;s easier to check if you accidently omitted
+<code>C</code>. But you could also get the same effect by just typing <code>C</code> before <code>D</code> in the
+while loop, and then it&rsquo;s basicalyl the same.
+</p>
+</div>
+</div>
+<div id="outline-container-orgabccca2" class="outline-2">
+<h2 id="orgabccca2"><span class="section-number-2">2.</span> The &ldquo;other&rdquo; for loop</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Many languages have noticed how stupid this version of the for loop is, and
+ontly the really stupid languages keep this &ldquo;C-style for loop&rdquo;. This is because
+even though, <code>A, B, C</code> could all be anything, people only realy write one type
+of for loop.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #96CBFE; font-style: italic;">for</span> <span style="color: #55b3cc;">(</span><span style="color: #96CBFE;">int</span> <span style="color: #FFB8D1;">V</span> = Init; V &lt; End; V++<span style="color: #55b3cc;">)</span> <span style="color: #55b3cc;">{</span>
+    D
+<span style="color: #55b3cc;">}</span>
+</pre>
+</div>
+
+<p>
+where <code>V</code> is your choice of variable (usually <code>i</code>), <code>Init</code> your initial value
+<code>End</code> being your end value (though sometimes it is an expression).
+</p>
+
+<p>
+And occasianlly they use <code>&lt;=</code> instead of <code>&lt;</code> to confuse you into making an off
+by one error. And maybe also switch <code>++</code> to <code>--</code> or even rarely <code>V += X</code> for
+some <code>X</code>
+</p>
+
+
+<p>
+The above pattern is so common, that if I saw someone being creative with <code>A, B,
+C</code>, that wasn&rsquo;t the above, I would assume they wrote a bug.
+</p>
+
+
+
+
+<p>
+An language with a more reasonable <code>for</code> is lua, which has a more reasonable syntax.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-lua"><span style="color: #96CBFE; font-style: italic;">for</span> <span style="color: #FFB8D1;">A</span> = Init, End <span style="color: #96CBFE; font-style: italic;">do</span>
+  D
+<span style="color: #96CBFE; font-style: italic;">end</span>
+</pre>
+</div>
+
+<p>
+It&rsquo;s basically the C for loop, but there is no redundancy, beceasue you anly
+change the parameters that you expect to change.
+</p>
+
+<p>
+But even this is actually rarely used, because the most common used case is not
+actually dealing with integers, instead you are actually dealing with indeces in
+order to access array elements.  But do I really need indeces most of the time?
+This leads us to&#x2026;
+</p>
+</div>
+</div>
+<div id="outline-container-orga8ee903" class="outline-2">
+<h2 id="orga8ee903"><span class="section-number-2">3.</span> The other other for loop</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+This for loop, also known as the <code>for each</code> loop, is probably the most common
+for loop you see. Here&rsquo;s an example of the python version.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #96CBFE; font-style: italic;">for</span> element <span style="color: #96CBFE; font-style: italic;">in</span> my_array:
+    do_stuff()
+</pre>
+</div>
+
+<p>
+Lots of other languages have this or some variant of it. Even some older
+languages such as Java or C++ have introduced this as an alternative to the C
+style loop.
+</p>
+
+<p>
+What are the benifits of using this, besides not having to type as much? The
+main benifit is that your the code is closer to your intent. When you think
+at a human level, you often say something like &ldquo;call a function X with all the elements in
+the arary&rdquo; or &ldquo;select only the elements that are X in the array.&rdquo; It is very
+unnatuaral to think about introducing an index, when most of the time it isn&rsquo;t
+needed. Instead, we just talk about the elements, and talking about what we want
+to do to the element, or inspecting the element for some kind of property.
+</p>
+
+<p>
+By taking the index out of the picture, we have a simpler transition from our
+mental model to code and vice versa. And we can potentially avoid a stupid
+mistake.
+</p>
+
+<p>
+Compare the snippets above with a python version.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #FFB8D1;">total</span> = <span style="color: #C5A3FF; font-weight: bold;">0</span>
+<span style="color: #FFB8D1;">n</span> = <span style="color: #C5A3FF; font-weight: bold;">12</span>;
+<span style="color: #96CBFE; font-style: italic;">for</span> number <span style="color: #96CBFE; font-style: italic;">in</span> <span style="color: #55b3cc;">range</span>(<span style="color: #C5A3FF; font-weight: bold;">12</span>):
+    <span style="color: #FFB8D1;">total</span> += n
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python">
+<span style="color: #FFB8D1;">array</span> = [<span style="color: #C5A3FF; font-weight: bold;">1</span>, <span style="color: #C5A3FF; font-weight: bold;">2</span>, <span style="color: #C5A3FF; font-weight: bold;">5</span>, <span style="color: #C5A3FF; font-weight: bold;">8</span>, <span style="color: #C5A3FF; font-weight: bold;">9</span>, <span style="color: #C5A3FF; font-weight: bold;">0</span>]
+<span style="color: #FFB8D1;">total</span> = <span style="color: #C5A3FF; font-weight: bold;">0</span>;
+<span style="color: #96CBFE; font-style: italic;">for</span> number <span style="color: #96CBFE; font-style: italic;">in</span> <span style="color: #FFB8D1;">array</span>:
+    total += number
+</pre>
+</div>
+
+
+<p>
+Notice that in C, summing up numbers can be seen as a specialized case of
+summing an array, as <code>range</code> can be viewed as creating creating an array. This
+is the opposite of C, where summing an array is seen as a specialized case of
+summing a range, where you add the array element corresponding with index
+intsead of the index itself.
+</p>
+
+<p>
+And it should be like this, because accessing the array elements is the common
+case, while doing stuff with the indeces is rare.
+</p>
+
+
+<p>
+But can we do better than this?
+</p>
+</div>
+</div>
+<div id="outline-container-org97acf93" class="outline-2">
+<h2 id="org97acf93"><span class="section-number-2">4.</span> Getting rid of the element</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+<pre class="src src-haskell">
+<span style="color: #C2FFDF;">array</span> <span style="color: #FFB8D1;">=</span> [<span style="color: #C5A3FF; font-weight: bold;">1</span>, <span style="color: #C5A3FF; font-weight: bold;">2</span>, <span style="color: #C5A3FF; font-weight: bold;">5</span>, <span style="color: #C5A3FF; font-weight: bold;">8</span>, <span style="color: #C5A3FF; font-weight: bold;">9</span>, <span style="color: #C5A3FF; font-weight: bold;">0</span>]
+<span style="color: #C2FFDF;">total</span> <span style="color: #FFB8D1;">=</span> sum array
+</pre>
+</div>
+
+
+<p>
+OMG it&rsquo;s so easy. Well, you could have also done the same in python too. But Python is stupid, because it is mainstream and I hate all things that are main stream.
+</p>
+
+
+<p>
+Sum in general can be with replaced with foldl, which more or less means loop over an array and end up with some kind of total.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-haskell">
+<span style="color: #C2FFDF;">array</span> <span style="color: #FFB8D1;">=</span> [<span style="color: #C5A3FF; font-weight: bold;">1</span>, <span style="color: #C5A3FF; font-weight: bold;">2</span>, <span style="color: #C5A3FF; font-weight: bold;">5</span>, <span style="color: #C5A3FF; font-weight: bold;">8</span>, <span style="color: #C5A3FF; font-weight: bold;">9</span>, <span style="color: #C5A3FF; font-weight: bold;">0</span>]
+<span style="color: #C2FFDF;">acculumulate</span> currentTotal element <span style="color: #FFB8D1;">=</span> currentTotal <span style="color: #FFB8D1;">+</span> element
+<span style="color: #C2FFDF;">total</span> <span style="color: #FFB8D1;">=</span> foldl accumulate <span style="color: #C5A3FF; font-weight: bold;">0</span> array
+</pre>
+</div>
+
+
+<p>
+or more concisely
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">
+<span style="color: #C2FFDF;">array</span> <span style="color: #FFB8D1;">=</span> [<span style="color: #C5A3FF; font-weight: bold;">1</span>, <span style="color: #C5A3FF; font-weight: bold;">2</span>, <span style="color: #C5A3FF; font-weight: bold;">5</span>, <span style="color: #C5A3FF; font-weight: bold;">8</span>, <span style="color: #C5A3FF; font-weight: bold;">9</span>, <span style="color: #C5A3FF; font-weight: bold;">0</span>]
+<span style="color: #C2FFDF;">total</span> <span style="color: #FFB8D1;">=</span> foldl (<span style="color: #FFB8D1;">+</span>) <span style="color: #C5A3FF; font-weight: bold;">0</span> array
+</pre>
+</div>
+
+
+<p>
+So this is nice because we can easily generalize it to other things, such as writing it for product.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">
+<span style="color: #C2FFDF;">array</span> <span style="color: #FFB8D1;">=</span> [<span style="color: #C5A3FF; font-weight: bold;">1</span>, <span style="color: #C5A3FF; font-weight: bold;">2</span>, <span style="color: #C5A3FF; font-weight: bold;">5</span>, <span style="color: #C5A3FF; font-weight: bold;">8</span>, <span style="color: #C5A3FF; font-weight: bold;">9</span>, <span style="color: #C5A3FF; font-weight: bold;">6</span>]
+<span style="color: #C2FFDF;">totalProduct</span> <span style="color: #FFB8D1;">=</span> foldl (<span style="color: #FFB8D1;">*</span>) <span style="color: #C5A3FF; font-weight: bold;">1</span> array
+</pre>
+</div>
+
+
+<p>
+And it&rsquo;s good because you don&rsquo;t need indeces because indeces are evil. And they have to do with numbers and I hate numbers.
+</p>
+
+<p>
+It&rsquo;s also nice bceause you have this abstraction of <i>turn an array into a single value</i>. This pattern appears countless times in coding, and it&rsquo;s a more useful abstraction as opposed to the loop, which is so generic it could basicall mean anything. It&rsquo;s a nice compromise between between powerful enough that is can be used for many purposes, while not too generic, so that you still have this vague idea of <i>accumulation</i>.
+</p>
+
+
+<p>
+In contrast to accumulation the other thing you do with array is turning it into a different array. In haskell, this is done with map.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-haskell">
+<span style="color: #C2FFDF;">array</span> <span style="color: #FFB8D1;">=</span> [<span style="color: #C5A3FF; font-weight: bold;">1</span>, <span style="color: #C5A3FF; font-weight: bold;">2</span>, <span style="color: #C5A3FF; font-weight: bold;">5</span>, <span style="color: #C5A3FF; font-weight: bold;">8</span>, <span style="color: #C5A3FF; font-weight: bold;">9</span>, <span style="color: #C5A3FF; font-weight: bold;">6</span>]
+<span style="color: #C2FFDF;">addOne</span> x <span style="color: #FFB8D1;">=</span> x <span style="color: #FFB8D1;">+</span> <span style="color: #C5A3FF; font-weight: bold;">1</span>
+<span style="color: #C2FFDF;">totalProduct</span> <span style="color: #FFB8D1;">=</span> map addOne array <span style="color: #E6C000;">-- </span><span style="color: #E6C000;">is now [2, 3, 6, 9, 10, 7]</span>
+</pre>
+</div>
+
+
+<p>
+This is somethnig that you can also do in python with a list comprehension, which is the only part of python that I like. Not true, I like other parts of python, but python gets too much love these days, and it should get some more hate. Please spread more hate. Just one dollar a day can make a difference, and discourage some noob from writing spaghetti.
+</p>
+
+<p>
+Anyway, another great advantage of this is that you don&rsquo;t have to press tab, which is really important if your tab button is broken. You could not write with tabs in C, but then you will get beat up by Kennis Ritchie and Richard Kennie himself. (Those are iventors of the C language, that&rsquo;s why it&rsquo;s called K&amp;R C).
+</p>
+
+<p>
+I would give the example in C, but if I write more C code I&rsquo;m literally going to jump off a building.
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgdffc610" class="outline-2">
+<h2 id="orgdffc610"><span class="section-number-2">5.</span> Conclusion</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+In this article, we learned how for loops are a vessel of Satan, while functional programming is like manna from God. When the judgement day comes, God will seperate functional programmers from the imperative programmers, and the functional programmers will go to paradise, while the imperative programmers will be forced  to an eternity of programming in C++.
+</p>
+
+
+
+<p>
+Thank you for coming to my blog. If you have any criticism or feedback, please keep them to yourself and go commit die.  Bye!
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: John Wang</p>
+<p class="date">Created: 2023-01-18 Wed 21:14</p>
+</div>
+</body>
+</html>
