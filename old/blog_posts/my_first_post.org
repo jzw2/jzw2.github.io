@@ -1,0 +1,10 @@
+#+title: My First post
+#+info: Thi is some random info
+
+
+I guess this is my first post.
+
+
+This is a test for /whether I can handl italcs/
+
+But now *this is bold* so hopefully, this also gets exported.
