@@ -7,5 +7,6 @@ redirect_from:
   - /about.html
 ---
 
-I need help
+Hi, my name is John. I'm a recent graduate of the University of Tübingen. I NEED A JOB!!!!!!!
 
+PLS GIVE ME A JOB IM BEGGING YOU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
